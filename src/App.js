@@ -1,16 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
 import styled from "styled-components";
 import WeatherInfo from "./components/WeatherInfo";
 import WeatherForm from "./components/WeatherForm";
+import { useGetWeather } from "./hooks/useGetWeather";
 import bigsur from "./images/big-sur.png";
 
+const initialValue = () => ({
+  city: "moscow",
+  countryCode: "ru",
+});
+
 const App = () => {
+  const [location, setLocation] = useState(initialValue());
+
+  const changeLocation = (location) => {
+    if (!location.city.trim() || !location.countryCode.trim()) {
+      return;
+    }
+    setLocation({
+      city: location.city,
+      countryCode: location.countryCode,
+    });
+  };
+
+  const { data, error, isFetching } = useGetWeather(
+    location.city,
+    location.countryCode
+  );
+
   return (
     <Container>
       <Wrapper>
-        <WeatherInfo />
-        <WeatherForm />
+        <WeatherInfo data={data} error={error} isFetching={isFetching} />
+        <WeatherForm onSubmit={changeLocation} />
       </Wrapper>
     </Container>
   );

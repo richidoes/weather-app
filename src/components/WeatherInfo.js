@@ -1,38 +1,51 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import moment from "moment";
 
-const WeatherInfo = () => {
+const WeatherInfo = ({ data, error, isFetching }) => {
+  const city = data;
+  console.log(city);
+  // const { temp, humidity, pressure } = data.main;
+  // const { country } = data.sys;
+  // const weather = data.weather[0].description;
+  // const wind = data.wind.speed;
+
   const dayName = moment().format("dddd");
   // const fullDate = moment().format("D MMM YYYY");
   const midDate = moment().format("D MMM");
 
   return (
     <Wrapper>
-      <LocationContainer>
-        <City>Moscou / RU</City>
-        <Date>
-          {midDate}, {dayName}
-        </Date>
-      </LocationContainer>
-      <WeatherContainer>
-        <Temperature>-11.82 °C</Temperature>
-        <Weather>Clear sky</Weather>
-        <ExtraInfoContainer>
-          <Section>
-            <Value>1.014 bar</Value>
-            <Condition>Pressure</Condition>
-          </Section>
-          <Section>
-            <Value>85%</Value>
-            <Condition>Humidity</Condition>
-          </Section>
-          <Section>
-            <Value>5 m/s</Value>
-            <Condition>Wind</Condition>
-          </Section>
-        </ExtraInfoContainer>
-      </WeatherContainer>
+      {isFetching ? (
+        <span>Loading</span>
+      ) : (
+        <>
+          <LocationContainer>
+            <City>{/* {city} / {country} */}</City>
+            <Date>
+              {midDate}, {dayName}
+            </Date>
+          </LocationContainer>
+          <WeatherContainer>
+            <Temperature> °C</Temperature>
+            <Weather></Weather>
+            <ExtraInfoContainer>
+              <Section>
+                <Value> bar</Value>
+                <Condition>Pressure</Condition>
+              </Section>
+              <Section>
+                <Value> %</Value>
+                <Condition>Humidity</Condition>
+              </Section>
+              <Section>
+                <Value> m/s</Value>
+                <Condition>Wind</Condition>
+              </Section>
+            </ExtraInfoContainer>
+          </WeatherContainer>
+        </>
+      )}
     </Wrapper>
   );
 };

@@ -3,17 +3,40 @@ import styled from "styled-components";
 
 const defaultValue = () => {
   return {
-    city: "Moscow",
-    countryCode: "ru",
+    city: "",
+    countryCode: "",
   };
 };
 
 const WeatherForm = () => {
+  // const [input, setInput] = useState(defaultValue());
+
+  // console.log(input);
+
+  // const onChange = (e, type) => {
+  //   setInput({ ...input, [type]: e.target.value });
+  // };
+
   return (
     <Wrapper>
       <Form>
-        <Input />
-        <Input />
+        <Input
+          autoComplete="false"
+          autoFocus
+          placeholder="City"
+          name="city"
+          required
+          // value={input.city}
+          // onChange={(e) => onChange(e, "city")}
+        />
+        <Input
+          autoComplete="false"
+          placeholder="Countrycode"
+          name="country"
+          required
+          // value={input.countryCode}
+          // onChange={(e) => onChange(e, "countrycode")}
+        />
         <Button>search</Button>
       </Form>
     </Wrapper>
@@ -75,4 +98,5 @@ const Button = styled.button`
   background: #0071e3;
   border-radius: 20px;
   border: unset;
+  cursor: pointer;
 `;

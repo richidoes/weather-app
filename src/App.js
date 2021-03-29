@@ -1,39 +1,59 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import styled from "styled-components";
+import toast, { Toaster } from "react-hot-toast";
+import Context from "./Context";
 import WeatherInfo from "./components/WeatherInfo";
 import WeatherForm from "./components/WeatherForm";
-import { useGetWeather } from "./hooks/useGetWeather";
+import { doFetch } from "./utils/doFetch";
 import bigsur from "./images/big-sur.png";
 
-const initialValue = () => ({
-  city: "moscow",
-  countryCode: "ru",
-});
+const apiKey = process.env.REACT_APP_API_KEY;
+const initialURL = `https://api.openweathermap.org/data/2.5/weather?q=moscow,ru&appid=${apiKey}&units=metric`;
 
 const App = () => {
-  const [location, setLocation] = useState(initialValue());
+  const [weatherData, setWeatherData] = useState();
 
-  const changeLocation = (location) => {
-    if (!location.city.trim() || !location.countryCode.trim()) {
-      return;
+  //fetch default data on first render
+  useEffect(() => {
+    if (localStorage.getItem("defaultData")) {
+      setWeatherData(JSON.parse(localStorage.getItem("defaultData")));
     }
-    setLocation({
-      city: location.city,
-      countryCode: location.countryCode,
-    });
-  };
+    doFetch(initialURL)
+      .then((weather) => {
+        setWeatherData(weather.data);
+        localStorage.setItem("defaultData", JSON.stringify(weather.data));
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Data could not be obtained, please try again");
+      });
+  }, []);
 
-  const { data, error, isFetching } = useGetWeather(
-    location.city,
-    location.countryCode
-  );
+  //handle submited search
+  const getWeather = async (e) => {
+    const city = e.target.elements.city.value;
+    const countryCode = e.target.elements.country.value;
+    const URI = `https://api.openweathermap.org/data/2.5/weather?q=${city},${countryCode}&appid=${apiKey}&units=metric`;
+
+    doFetch(URI)
+      .then((weather) => {
+        setWeatherData(weather.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Data could not be obtained, please try again");
+      });
+  };
 
   return (
     <Container>
       <Wrapper>
-        <WeatherInfo data={data} error={error} isFetching={isFetching} />
-        <WeatherForm onSubmit={changeLocation} />
+        <Context.Provider value={{ getWeather, weatherData }}>
+          {weatherData && <WeatherInfo />}
+          <WeatherForm />
+          <Toaster />
+        </Context.Provider>
       </Wrapper>
     </Container>
   );

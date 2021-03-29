@@ -1,56 +1,59 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useContext } from "react";
+import styled, { keyframes } from "styled-components";
 import moment from "moment";
+import Context from "../Context";
 
-const WeatherInfo = ({ data, error, isFetching }) => {
-  const city = data;
-  console.log(city);
-  // const { temp, humidity, pressure } = data.main;
-  // const { country } = data.sys;
-  // const weather = data.weather[0].description;
-  // const wind = data.wind.speed;
+const WeatherInfo = () => {
+  const { weatherData } = useContext(Context);
+
+  const city = weatherData.name;
+  const { country } = weatherData.sys;
+  const { temp, humidity } = weatherData.main;
+  const pressure = weatherData.main.pressure / 1000;
+  const { description: time } = weatherData.weather[0];
+  const windSpeed = weatherData.wind.speed;
 
   const dayName = moment().format("dddd");
-  // const fullDate = moment().format("D MMM YYYY");
   const midDate = moment().format("D MMM");
 
   return (
     <Wrapper>
-      {isFetching ? (
-        <span>Loading</span>
-      ) : (
-        <>
-          <LocationContainer>
-            <City>{/* {city} / {country} */}</City>
-            <Date>
-              {midDate}, {dayName}
-            </Date>
-          </LocationContainer>
-          <WeatherContainer>
-            <Temperature> °C</Temperature>
-            <Weather></Weather>
-            <ExtraInfoContainer>
-              <Section>
-                <Value> bar</Value>
-                <Condition>Pressure</Condition>
-              </Section>
-              <Section>
-                <Value> %</Value>
-                <Condition>Humidity</Condition>
-              </Section>
-              <Section>
-                <Value> m/s</Value>
-                <Condition>Wind</Condition>
-              </Section>
-            </ExtraInfoContainer>
-          </WeatherContainer>
-        </>
-      )}
+      <LocationContainer>
+        <City>
+          {city} / {country}
+        </City>
+        <Date>
+          {midDate}, {dayName}
+        </Date>
+      </LocationContainer>
+      <WeatherContainer>
+        <Temperature>{temp} °C</Temperature>
+        <Weather>{time}</Weather>
+        <ExtraInfoContainer>
+          <Section>
+            <Value>{pressure} bar</Value>
+            <Condition>Pressure</Condition>
+          </Section>
+          <Section>
+            <Value>{humidity} %</Value>
+            <Condition>Humidity</Condition>
+          </Section>
+          <Section>
+            <Value>{windSpeed} m/s</Value>
+            <Condition>Wind</Condition>
+          </Section>
+        </ExtraInfoContainer>
+      </WeatherContainer>
     </Wrapper>
   );
 };
 
 export default WeatherInfo;
+
+const animation = keyframes`
+  from { opacity: 0; transform: translateY(-20px); filter: blur(10px); }
+  to { opacity: 1; transform: translateY(0px); filter: blur(0px); }
+`;
 
 const customColor = `
 background: linear-gradient(to right, #7f00ff, #e100ff);
@@ -67,9 +70,20 @@ const flexCenter = `
 const Wrapper = styled.div`
   width: 100%;
   height: 340px;
-
   display: grid;
   gap: 5rem;
+
+  > * {
+    //apply to immediate children
+    opacity: 0;
+    animation: ${animation} 1s forwards;
+    :nth-child(1) {
+      animation-delay: 0s;
+    }
+    :nth-child(2) {
+      animation-delay: 0.2s;
+    }
+  }
 `;
 const LocationContainer = styled.div`
   ${flexCenter}

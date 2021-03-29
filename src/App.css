@@ -133,111 +133,13 @@ table {
   border-spacing: 0;
 }
 
-/* Media queries */
-
-/* @media (max-width: 700px) {
-  .formContainer {
-    margin-top: 20px !important;
-    flex-direction: column !important;
-    margin-right: 10px !important;
-    margin-left: 10px !important;
-  }
-  .weatherView {
-    margin-top: -214px !important;
-    width: 330px !important;
-    height: 42vh !important;
-    margin-left: 0 !important;
-  }
-  .weatherInfo {
-    width: 260px !important;
-    height: 12vh !important;
-    margin-top: 234px !important;
-    margin-left: 0 !important;
-    padding: 0 !important;
-    border-radius: 0 !important;
-  }
-  .formInfo {
-    margin-top: 368px !important;
-    height: 36vh !important;
-    width: 310px !important;
-    margin-left: -7px !important;
-    padding: 0 !important;
-  }
-  form {
-    margin-top: 95px !important;
-  }
-  .inputContainer {
-    width: 80% !important;
-    height: 40px !important;
-  }
-  .loading {
-    margin-left: -10px !important;
-    margin-top: -150px !important;
-    margin-bottom: 0 !important;
-  }
-
-  .loadingForm {
-    margin-left: -10px !important;
-    margin-top: -150px !important;
-  }
+input[type="text"],
+textarea {
+  transition: all 0.3s ease-in-out;
 }
 
-.loading {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  margin-left: -400px;
-  width: 200px;
-  height: 200px;
-  box-sizing: border-box;
-  border-radius: 50%;
-  border-top: 10px solid #e74c3c;
-  position: absolute;
-  animation: a1 2s linear infinite;
+input[type="text"]:focus,
+textarea:focus {
+  box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+  border: 1px solid rgba(81, 203, 238, 1);
 }
-.loadingForm {
-  margin-left: 200px;
-  margin-top: -180px;
-}
-.loading::before,
-.loading::after {
-  content: "";
-  width: 200px;
-  height: 200px;
-  position: absolute;
-  left: 0;
-  top: -10px;
-  box-sizing: border-box;
-  border-radius: 50%;
-}
-
-.loading::before {
-  border-top: 10px solid #e67e22;
-  transform: rotate(120deg);
-}
-.loading::after {
-  border-top: 10px solid #3498db;
-  transform: rotate(240deg);
-}
-
-.loading span {
-  position: absolute;
-  width: 200px;
-  height: 200px;
-  color: #fff;
-  font-weight: bold;
-  text-align: center;
-  line-height: 200px;
-  animation: a2 2s linear infinite;
-}
-
-@keyframes a1 {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes a2 {
-  to {
-    transform: rotate(-360deg);
-  }
-} */

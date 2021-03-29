@@ -1,40 +1,22 @@
-# Inicio rapido
+# Quick start
 
-1.  **Preparando proyecto.**
-    Para comenzar a usar esta plantilla ejecuta:
+1.  **Setup project.**
+    To start using this template run:
 
-    ```shell
-    yarn install / npm install
-    yarn start / npm start
-    ```
+        ```shell
+        yarn install / npm install
+        yarn start / npm start
+        ```
 
 2.  **Api key**
-    Debe ingresar al sitio (api.openweathermap.org) y conseguir una key de acceso para poder solicitar los datos a la api.
+    You must enter the site (api.openweathermap.org) and get an access key to be able to request the data from the api.
 
-3.  **Dentro de nuestro directorio**
-    Ahora debe crear un fichero WeatherApi.js dentro de el "dir" utils/ y colocar su key id para acceder a la api.
+3.  **Inside our directory**
+    Now you must create a file ".env.local" inside the "dir" src/ and put your key id with this format:
 
-    En este formato debe integrarlo:
+REACT_APP_API_KEY="yourapikey"
 
-```shell
-
-    import axios from "axios";
-
-export const getWeather = async (city, countryCode) => {
-  try {
-    const apiKey = "";
-    const URI = `https://api.openweathermap.org/data/2.5/weather?q=${city},${countryCode}&appid=${apiKey}&units=metric`;
-    const response = await axios.get(URI);
-    const data = await response.data;
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-```
-
-4.  **Comienza a usarlo :D**
+4.  **Start using it :D**
 
 ```shell
 

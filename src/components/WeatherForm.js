@@ -1,41 +1,54 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
+import toast from "react-hot-toast";
+import Context from "../Context";
 
 const defaultValue = () => {
   return {
     city: "",
-    countryCode: "",
+    countrycode: "",
   };
 };
 
 const WeatherForm = () => {
-  // const [input, setInput] = useState(defaultValue());
+  const [input, setInput] = useState(defaultValue());
 
-  // console.log(input);
+  const { getWeather } = useContext(Context);
 
-  // const onChange = (e, type) => {
-  //   setInput({ ...input, [type]: e.target.value });
-  // };
+  const onChange = (e, type) => {
+    setInput({ ...input, [type]: e.target.value });
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    if (!input.city.trim() || !input.countrycode.trim()) {
+      toast.error("All fields are required");
+      return;
+    }
+    getWeather(e);
+    setInput(defaultValue());
+  };
 
   return (
     <Wrapper>
-      <Form>
+      <Form onSubmit={onSubmit}>
         <Input
+          type="text"
           autoComplete="false"
           autoFocus
           placeholder="City"
           name="city"
-          required
-          // value={input.city}
-          // onChange={(e) => onChange(e, "city")}
+          value={input.city}
+          onChange={(e) => onChange(e, "city")}
         />
         <Input
+          type="text"
           autoComplete="false"
           placeholder="Countrycode"
           name="country"
-          required
-          // value={input.countryCode}
-          // onChange={(e) => onChange(e, "countrycode")}
+          value={input.countrycode}
+          onChange={(e) => onChange(e, "countrycode")}
         />
         <Button>search</Button>
       </Form>
@@ -85,6 +98,7 @@ const Button = styled.button`
   margin-top: 10px;
   width: 131px;
   height: 32px;
+  transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
 
   display: flex;
   flex-direction: row;
@@ -99,4 +113,13 @@ const Button = styled.button`
   border-radius: 20px;
   border: unset;
   cursor: pointer;
+
+  :focus {
+    outline: unset;
+  }
+
+  :hover {
+    transform: translateY(-4px);
+    box-shadow: 0px 4px 10px rgba(77, 108, 170, 0.3);
+  }
 `;
